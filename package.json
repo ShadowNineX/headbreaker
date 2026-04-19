@@ -33,7 +33,8 @@
     "typecheck": "tsc --noEmit",
     "all": "bun run typecheck && bun test && bun run build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "publish:npm": "bun run build && bun publish --access public"
   },
   "optionalDependencies": {
     "konva": "^10.0.0"
