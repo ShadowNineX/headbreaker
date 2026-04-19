@@ -1,6 +1,6 @@
-[![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/ci.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/maintainability)](https://codeclimate.com/github/ShadowNineX/headbreaker/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/test_coverage)](https://codeclimate.com/github/ShadowNineX/headbreaker/test_coverage)
+[![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=ShadowNineX_headbreaker&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ShadowNineX_headbreaker)
+![Coverage](./badges/coverage.svg)
 
 # 🧩 🤯 Headbreaker
 
