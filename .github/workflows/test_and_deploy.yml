@@ -38,4 +38,4 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
