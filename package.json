@@ -5,13 +5,13 @@
   "description": "Jigsaw puzzles library written in TypeScript",
   "author": "Franco Leonardo Bulgarelli",
   "license": "ISC",
-  "homepage": "https://github.com/flbulgarelli/headbreaker#readme",
+  "homepage": "https://github.com/ShadowNineX/headbreaker#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flbulgarelli/headbreaker.git"
+    "url": "git+https://github.com/ShadowNineX/headbreaker.git"
   },
   "bugs": {
-    "url": "https://github.com/flbulgarelli/headbreaker/issues"
+    "url": "https://github.com/ShadowNineX/headbreaker/issues"
   },
   "exports": {
     ".": {
