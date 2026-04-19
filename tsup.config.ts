@@ -9,7 +9,7 @@ export default defineConfig([
     sourcemap: true,
     clean: true,
     outDir: 'dist',
-    name: 'headbreaker',
+    name: 'headbreaker-ts',
     external: ['konva'],
   },
   // Browser bundle for docs (IIFE with konva bundled)

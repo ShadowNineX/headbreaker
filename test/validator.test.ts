@@ -168,7 +168,7 @@ describe('spatialMetadata', () => {
 
       puzzle.annotate(
         puzzle.pieces.map(it => ({
-          targetPosition: it.centralAnchor!.asVector(),
+          targetPosition: it.centralAnchor?.asVector(),
         })),
       );
     });

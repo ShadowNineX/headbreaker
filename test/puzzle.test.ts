@@ -122,7 +122,7 @@ describe('puzzle', () => {
       const piece = puzzle.newPiece({ right: Tab, up: Tab });
       piece.locateAt(-10, -10);
       puzzle.reframe(Vector.zero(), vector(10, 10));
-      expect(piece.centralAnchor!.asPair()).toEqual([2, 2]);
+      expect(piece.centralAnchor?.asPair()).toEqual([2, 2]);
     });
 
     it('reframes single offstage piece - to the right', () => {
@@ -130,7 +130,7 @@ describe('puzzle', () => {
       const piece = puzzle.newPiece({ right: Tab, up: Tab });
       piece.locateAt(10, 15);
       puzzle.reframe(Vector.zero(), vector(8, 12));
-      expect(piece.centralAnchor!.asPair()).toEqual([6, 10]);
+      expect(piece.centralAnchor?.asPair()).toEqual([6, 10]);
     });
 
     it('reframes multiple offstage pieces, preserving distances', () => {
@@ -140,8 +140,8 @@ describe('puzzle', () => {
       const other = puzzle.newPiece({ right: Tab, up: Tab });
       other.locateAt(-8, -6);
       puzzle.reframe(Vector.zero(), vector(10, 10));
-      expect(one.centralAnchor!.asPair()).toEqual([2, 2]);
-      expect(other.centralAnchor!.asPair()).toEqual([4, 6]);
+      expect(one.centralAnchor?.asPair()).toEqual([2, 2]);
+      expect(other.centralAnchor?.asPair()).toEqual([4, 6]);
     });
 
     it('honors min bound when full reframing is impossible', () => {
@@ -151,8 +151,8 @@ describe('puzzle', () => {
       const other = puzzle.newPiece({ right: Tab, up: Tab });
       other.locateAt(12, 12);
       puzzle.reframe(Vector.zero(), vector(10, 10));
-      expect(one.centralAnchor!.asPair()).toEqual([2, 2]);
-      expect(other.centralAnchor!.asPair()).toEqual([14, 14]);
+      expect(one.centralAnchor?.asPair()).toEqual([2, 2]);
+      expect(other.centralAnchor?.asPair()).toEqual([14, 14]);
     });
 
     it('reframes does nothing when pieces are already within bounds', () => {
@@ -162,8 +162,8 @@ describe('puzzle', () => {
       const other = puzzle.newPiece({ right: Tab, up: Tab });
       other.locateAt(5, 9);
       puzzle.reframe(Vector.zero(), vector(20, 20));
-      expect(one.centralAnchor!.asPair()).toEqual([3, 3]);
-      expect(other.centralAnchor!.asPair()).toEqual([5, 9]);
+      expect(one.centralAnchor?.asPair()).toEqual([3, 3]);
+      expect(other.centralAnchor?.asPair()).toEqual([5, 9]);
     });
   });
 

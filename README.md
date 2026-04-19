@@ -1,38 +1,43 @@
-[![Build Status](https://github.com/flbulgarelli/headbreaker/actions/workflows/ci.yml/badge.svg)](https://github.com/flbulgarelli/headbreaker/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/maintainability)](https://codeclimate.com/github/flbulgarelli/headbreaker/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/test_coverage)](https://codeclimate.com/github/flbulgarelli/headbreaker/test_coverage)
+[![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/ci.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/maintainability)](https://codeclimate.com/github/ShadowNineX/headbreaker/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d8498f33969b9c41e3f4/test_coverage)](https://codeclimate.com/github/ShadowNineX/headbreaker/test_coverage)
 
 # 🧩 🤯 Headbreaker
 
-> Jigsaw Puzzles Framework written in TypeScript
+> Jigsaw Puzzles Framework written in TypeScript — v4.0
 
-`headbreaker` - a Spanish pun for _rompecabezas_ - is a TypeScript framework for building all kind of jigsaw puzzles.
+> [!WARNING]
+> This is a new version of headbreaker (`headbreaker-ts`) and may contain bugs. If you encounter any issues, please [open a bug report](https://github.com/ShadowNineX/headbreaker/issues/new?template=bug_report.md) — it's greatly appreciated!
+
+> [!NOTE]
+> Documentation is still being updated for v4. Some pages may reflect older behavior — if something doesn't match, the source code and tests are the best reference.
+
+`headbreaker` - a Spanish pun for _rompecabezas_ - is a TypeScript framework for building all kinds of jigsaw puzzles.
 
 ## ☑️ Features
 
  * Written in TypeScript with full type declarations
- * Headless support domain-model
+ * Headless domain-model support
  * Highly tested with Vitest
  * Customizable data-model
- * Zero-dependencies - although Konva.js is used as a rendering backend, it is an optional dependency which can be replaced with custom code
- * ES Module, CommonJS, and IIFE (browser global) output formats
+ * Zero-dependencies — Konva.js is an optional rendering backend that can be replaced with custom code
+ * ES Module and CommonJS output formats
 
 ## 📦 Installing
 
 ```bash
-npm install --save headbreaker
+bun add headbreaker-ts
 
-# optional: manually add konva to your project if you want to use
-# it as rendering backend
-npm install --save konva
+# optional: add konva if you want to use it as the rendering backend
+bun add konva
 ```
 
 ## ⏳ TL;DR sample
 
-If you just want to see a - very basic - 2x2 puzzle in your web-browser, then create an HTML file with the following contents 😁:
+If you just want to see a — very basic — 2x2 puzzle in your web-browser, then create an HTML file with the following contents 😁:
 
 ```html
-<script src="https://flbulgarelli.github.io/headbreaker/js/headbreaker.js"></script>
+<script src="https://ShadowNineX.github.io/headbreaker/js/headbreaker.js"></script>
 <body>
   <div id="puzzle"></div>
   <script>
@@ -58,7 +63,7 @@ If you just want to see a - very basic - 2x2 puzzle in your web-browser, then cr
 
 And voilà! 🎊
 
-![sample puzzle](https://raw.githubusercontent.com/flbulgarelli/headbreaker/master/docs/tldr_puzzle.png)
+![sample puzzle](https://raw.githubusercontent.com/ShadowNineX/headbreaker/main/docs/tldr_puzzle.png)
 
 However, there is a lot more that `headbreaker` can do for you. These are some of its coolest features:
 
@@ -72,12 +77,12 @@ However, there is a lot more that `headbreaker` can do for you. These are some o
 
 ## 🏁 Quick start
 
-`headbreaker` is a library which solves two different - but-related - problems:
+`headbreaker` is a library which solves two different — but related — problems:
 
-  * It implements a jigsaw-like data-structure, which can be used in tasks like modelling, traversing, importing and exporting and - of course - rendering. This data-structure is 100% pure JavaScript, with no dependencies, and can be used both in browsers and headless environments.
-  * It implements a simple and generic rendering system for the Web. `headbreaker` also ships a 100% functional [Konva.js](https://konvajs.org/)-based implementation, but you may want to develop and use your own implementation.
+  * It implements a jigsaw-like data-structure, which can be used in tasks like modelling, traversing, importing, exporting, and — of course — rendering. This data-structure has no dependencies and can be used both in browsers and headless environments.
+  * It implements a simple and generic rendering system for the Web. `headbreaker` ships a fully functional [Konva.js](https://konvajs.org/)-based implementation via `painters.Konva`, but you may develop and use your own implementation by implementing the `Painter` interface.
 
-`headbreaker` is designed to be included and compiled in your project as a `node` module, but you can also import it directly in your static pages from [`https://flbulgarelli.github.io/headbreaker/js/headbreaker.js`](https://flbulgarelli.github.io/headbreaker/js/headbreaker.js).
+`headbreaker` is designed to be installed as an npm package, but you can also import it directly in static pages from [`https://ShadowNineX.github.io/headbreaker/js/headbreaker.js`](https://ShadowNineX.github.io/headbreaker/js/headbreaker.js).
 
 ### HTML Puzzle
 
@@ -88,7 +93,7 @@ However, there is a lot more that `headbreaker` can do for you. These are some o
 
 <script>
   // ...and a script with the following code:
-  let dali = new Image();
+  const dali = new Image();
   dali.src = 'static/dali.jpg';
   dali.onload = () => {
     const canvas = new headbreaker.Canvas('my-canvas', {
@@ -97,34 +102,27 @@ However, there is a lot more that `headbreaker` can do for you. These are some o
     canvas.autogenerate();
     canvas.shuffle(0.7);
     canvas.draw();
-  }
+  };
 </script>
 ```
 
-`Canvas` is a visual representation of a `Puzzle` and as such, it mirrors many of the most
-common `Puzzle` methods - see next section for more details. However, if you need to access
-the associated `Puzzle` object, you can call `puzzle` accessor anytime:
+`Canvas` is a visual representation of a `Puzzle` and mirrors many of its common methods. If you need to access the underlying `Puzzle` object directly, use the `puzzle` accessor:
 
-```javascript
+```typescript
 // create and configure the canvas
 const canvas = new headbreaker.Canvas(...);
 // ...
 
-// now you can access and interact with the puzzle object
+// access and interact with the puzzle object
 const puzzle = canvas.puzzle;
 ```
 
 ### Headless Puzzle
 
-Headbreaker provides a `Puzzle` object which allows to fully manipulate its model and its individual `Piece`s. Since `Puzzle`s are not coupled
-to any visual representation, it can be even loaded in headless environments, like in a `node` server:
+`headbreaker` provides a `Puzzle` class that lets you fully manipulate the model and its individual `Piece`s without any visual representation. It can be used in headless environments such as a Node.js server:
 
-```javascript
-// ES module import
-import { Puzzle, Slot, Tab, vector } from 'headbreaker'
-
-// Or CommonJS
-// const { Puzzle, Tab, Slot, vector } = require('headbreaker');
+```typescript
+import { Puzzle, Slot, Tab, vector } from 'headbreaker-ts'
 
 // Create a puzzle
 const puzzle = new Puzzle()
@@ -174,16 +172,14 @@ c.metadata.sugar = false
 d.metadata.flavour = 'vainilla'
 d.metadata.sugar = true
 
-// Require pieces to match a given condition in
-// order to be connected
+// Require pieces to match a given condition in order to be connected
 puzzle.attachConnectionRequirement((one, other) => one.metadata.flavour === other.metadata.flavour)
 
-// Alternatively, set individual requirements for horizontal
-// and vertical connections
+// Alternatively, set individual requirements for horizontal and vertical connections
 puzzle.attachVerticalConnectionRequirement((one, other) => one.metadata.flavour === other.metadata.flavour)
 puzzle.attachHorizontalConnectionRequirement((one, other) => one.metadata.sugar !== other.metadata.sugar)
 
-// Remove all - vertical and horizontal - connection requirements
+// Remove all connection requirements
 puzzle.clearConnectionRequirements()
 
 // Export and import puzzle
@@ -193,18 +189,18 @@ const otherPuzzle = Puzzle.import(dump)
 
 ## React Puzzle
 
-> Check also [https://github.com/flbulgarelli/headbreaker-react-sample](https://github.com/flbulgarelli/headbreaker-react-sample)
+> Check also [https://github.com/ShadowNineX/headbreaker-react-sample](https://github.com/ShadowNineX/headbreaker-react-sample)
 
 ```tsx
-import { Canvas, painters } from 'headbreaker'
+import { Canvas, painters } from 'headbreaker-ts'
 import { useEffect, useRef } from 'react'
 
-function DemoPuzzle({ id }) {
-  const puzzleRef = useRef(null)
+function DemoPuzzle({ id }: { id: string }) {
+  const puzzleRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const puzzle = puzzleRef.current
-    const canvas = new Canvas(puzzle.id, {
+    if (!puzzleRef.current) return
+    const canvas = new Canvas(puzzleRef.current.id, {
       width: 800,
       height: 650,
       pieceSize: 100,
@@ -212,7 +208,7 @@ function DemoPuzzle({ id }) {
       borderFill: 10,
       strokeWidth: 2,
       lineSoftness: 0.18,
-      painter: new painters.Konva() // <-- this is important. See https://github.com/flbulgarelli/headbreaker/issues/51
+      painter: new painters.Konva(),
     })
 
     canvas.autogenerate({
@@ -222,8 +218,8 @@ function DemoPuzzle({ id }) {
         { color: '#B83361' },
         { color: '#B87D32' },
         { color: '#A4C234' },
-        { color: '#37AB8C' }
-      ]
+        { color: '#37AB8C' },
+      ],
     })
 
     canvas.draw()
@@ -244,7 +240,7 @@ export default function Home() {
 
 ## Vue Puzzle
 
-> Check also [https://github.com/flbulgarelli/headbreaker-vue-sample](https://github.com/flbulgarelli/headbreaker-vue-sample)
+> Check also [https://github.com/ShadowNineX/headbreaker-vue-sample](https://github.com/ShadowNineX/headbreaker-vue-sample)
 
 ```vue
 <template>
@@ -254,11 +250,12 @@ export default function Home() {
   </div>
 </template>
 
-<script>
-import headbreaker from 'headbreaker';
+<script setup lang="ts">
+import { Canvas, painters } from 'headbreaker-ts';
+import { onMounted } from 'vue';
 
-const drawPuzzle = () => {
-  const autogen = new headbreaker.Canvas('puzzle', {
+onMounted(() => {
+  const autogen = new Canvas('puzzle', {
     width: 800,
     height: 650,
     pieceSize: 100,
@@ -266,7 +263,7 @@ const drawPuzzle = () => {
     borderFill: 10,
     strokeWidth: 2,
     lineSoftness: 0.18,
-    painter: new headbreaker.painters.Konva(),
+    painter: new painters.Konva(),
   });
 
   autogen.autogenerate({
@@ -281,42 +278,41 @@ const drawPuzzle = () => {
   });
 
   autogen.draw();
-};
-
-export default {
-  mounted() {
-    drawPuzzle()
-  },
-};
+});
 </script>
 ```
 
 ## 👀 Demo and API Docs
 
-See [flbulgarelli.github.io/headbreaker](https://flbulgarelli.github.io/headbreaker/)
+See [ShadowNineX.github.io/headbreaker](https://ShadowNineX.github.io/headbreaker/)
 
 ## ❓ Questions
 
-Do you have any questions or doubts? Please feel free to check [the existing discussions](https://github.com/flbulgarelli/headbreaker/discussions) or open a new one 🙋.
+Do you have any questions or doubts? Please feel free to check [the existing discussions](https://github.com/ShadowNineX/headbreaker/discussions) or open a new one 🙋.
 
 ## 🏗 Develop
 
 ```bash
 # install project
-$ npm install
+$ bun install
 # run tests
-$ npm test
+$ bun test
 # type-check
-$ npm run typecheck
-# build library (CJS + ESM + DTS + IIFE for docs)
-$ npm run build
+$ bun run typecheck
+# lint
+$ bun run lint
+# lint and auto-fix
+$ bun run lint:fix
+# build library (CJS + ESM + DTS)
+$ bun run build
 # run all checks and build
-$ npm run all
+$ bun run all
 # start docs site locally (Astro Starlight)
-$ cd docs && npm install && npm run dev
+$ cd docs && bun install && bun run dev
 ```
 
 ## Contributors
 
 * [@flbulgarelli](https://github.com/flbulgarelli)
 * [@Almo7aya](https://github.com/Almo7aya)
+* [@ShadowNineX](https://github.com/ShadowNineX)

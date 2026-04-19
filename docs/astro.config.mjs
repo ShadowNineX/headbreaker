@@ -6,8 +6,8 @@ export default defineConfig({
   base: '/headbreaker',
   integrations: [
     starlight({
-      title: 'Headbreaker',
-      description: 'Jigsaw Puzzles Framework written in TypeScript',
+      title: 'Headbreaker v4',
+      description: 'Jigsaw Puzzles Framework written in TypeScript — v4',
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/flbulgarelli/headbreaker' },
       ],

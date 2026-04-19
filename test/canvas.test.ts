@@ -34,8 +34,8 @@ describe('canvas', () => {
 
     canvas.draw();
 
-    expect(canvas._nullLayer!.figures).toBe(1);
-    expect(canvas._nullLayer!.drawn).toBe(true);
+    expect(canvas._nullLayer?.figures).toBe(1);
+    expect(canvas._nullLayer?.drawn).toBe(true);
     expect(!!canvas.figures[1]).toBe(false);
     expect(!!canvas.figures.a).toBe(true);
     expect(canvas.puzzle.pieces.length).toBe(1);
@@ -108,8 +108,8 @@ describe('canvas', () => {
 
     canvas.draw();
 
-    expect(canvas._nullLayer!.figures).toBe(2);
-    expect(canvas._nullLayer!.drawn).toBe(true);
+    expect(canvas._nullLayer?.figures).toBe(2);
+    expect(canvas._nullLayer?.drawn).toBe(true);
     expect(canvas.puzzle.pieces[0].diameter).toEqual(vector(100, 100));
     expect(canvas.puzzle.pieces[1].diameter).toEqual(vector(200, 100));
     expect(canvas.pieceDiameter.x).toBe(100);
@@ -196,7 +196,7 @@ describe('canvas', () => {
     });
     canvas.draw();
 
-    expect(canvas._nullLayer!.figures).toBe(1);
+    expect(canvas._nullLayer?.figures).toBe(1);
     expect(!!canvas.figures.a).toBe(true);
 
     const [piece] = canvas.puzzle.pieces;
@@ -226,8 +226,8 @@ describe('canvas', () => {
     });
     canvas.draw();
 
-    expect(canvas._nullLayer!.figures).toBe(16);
-    expect(canvas._nullLayer!.drawn).toBe(true);
+    expect(canvas._nullLayer?.figures).toBe(16);
+    expect(canvas._nullLayer?.drawn).toBe(true);
     expect(!!canvas.figures[0]).toBe(false);
     expect(!!canvas.figures['1']).toBe(true);
     expect(!!canvas.figures['16']).toBe(true);
@@ -308,8 +308,8 @@ describe('canvas', () => {
     canvas.renderPuzzle(puzzle);
     canvas.draw();
 
-    expect(canvas._nullLayer!.figures).toBe(2);
-    expect(canvas._nullLayer!.drawn).toBe(true);
+    expect(canvas._nullLayer?.figures).toBe(2);
+    expect(canvas._nullLayer?.drawn).toBe(true);
     expect(canvas.pieceDiameter).toEqual({ x: 26, y: 26 });
     expect(canvas.proximity).toBe(14);
   });
@@ -395,7 +395,7 @@ describe('canvas', () => {
       });
       canvas.draw();
 
-      expect(canvas._nullLayer!.figures).toBe(4);
+      expect(canvas._nullLayer?.figures).toBe(4);
 
       const [first, second] = canvas.puzzle.pieces;
 
@@ -467,7 +467,7 @@ describe('canvas', () => {
       });
       canvas.draw();
 
-      expect(canvas._nullLayer!.figures).toBe(9);
+      expect(canvas._nullLayer?.figures).toBe(9);
 
       const center = canvas.puzzle.pieces[4];
 
