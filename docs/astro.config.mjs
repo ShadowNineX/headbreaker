@@ -2,14 +2,14 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
-  site: 'https://flbulgarelli.github.io',
+  site: 'https://ShadowNineX.github.io',
   base: '/headbreaker',
   integrations: [
     starlight({
       title: 'Headbreaker v4',
       description: 'Jigsaw Puzzles Framework written in TypeScript — v4',
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/flbulgarelli/headbreaker' },
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/ShadowNineX/headbreaker' },
       ],
       sidebar: [
         {
