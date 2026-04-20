@@ -63,7 +63,7 @@ If you just want to see a — very basic — 2x2 puzzle in your web-browser, the
 
 And voilà! 🎊
 
-![sample puzzle](https://raw.githubusercontent.com/ShadowNineX/headbreaker/main/docs/tldr_puzzle.png)
+![sample puzzle](https://shadowninex.github.io/headbreaker/images/tldr_puzzle.png)
 
 However, there is a lot more that `headbreaker` can do for you. These are some of its coolest features:
 
