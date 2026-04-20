@@ -1,18 +1,24 @@
-[![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
-[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=ShadowNineX_headbreaker&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ShadowNineX_headbreaker)
-![Coverage](./badges/coverage.svg)
+<div align="center">
 
 # 🧩 🤯 Headbreaker
 
 > Jigsaw Puzzles Framework written in TypeScript — v4.0
+
+`headbreaker` - a Spanish pun for _rompecabezas_ - is a TypeScript framework for building all kinds of jigsaw puzzles.
+
+[✅ Features](#-features) · [📦 Install](#-installing) · [⏳ TL;DR](#-tldr-sample) · [🏁 Quick Start](#-quick-start) · [⚛️ React](#react-puzzle) · [💚 Vue](#vue-puzzle) · [👀 Docs](#-demo-and-api-docs) · [❓ Questions](#-questions) · [🏗 Develop](#-develop)
+
+[![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=ShadowNineX_headbreaker&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ShadowNineX_headbreaker)
+![Coverage](./badges/coverage.svg)
+
+</div>
 
 > [!WARNING]
 > This is a new version of headbreaker (`headbreaker-ts`) and may contain bugs. If you encounter any issues, please [open a bug report](https://github.com/ShadowNineX/headbreaker/issues/new?template=bug_report.md) — it's greatly appreciated!
 
 > [!NOTE]
 > Documentation is still being updated for v4. Some pages may reflect older behavior — if something doesn't match, the source code and tests are the best reference.
-
-`headbreaker` - a Spanish pun for _rompecabezas_ - is a TypeScript framework for building all kinds of jigsaw puzzles.
 
 ## ☑️ Features
 
@@ -64,16 +70,6 @@ If you just want to see a — very basic — 2x2 puzzle in your web-browser, the
 And voilà! 🎊
 
 ![sample puzzle](https://shadowninex.github.io/headbreaker/images/tldr_puzzle.png)
-
-However, there is a lot more that `headbreaker` can do for you. These are some of its coolest features:
-
- * Customizable pieces outlines
- * Irregular pieces
- * Image support
- * Sound support
- * Event system
- * Automatic validation
- * Data import and export
 
 ## 🏁 Quick start
 
@@ -187,7 +183,7 @@ const dump = puzzle.export()
 const otherPuzzle = Puzzle.import(dump)
 ```
 
-## React Puzzle
+## ⚛️ React Puzzle
 
 ```tsx
 import { Canvas, painters } from 'headbreaker-ts'
@@ -236,7 +232,7 @@ export default function Home() {
 }
 ```
 
-## Vue Puzzle
+## 💚 Vue Puzzle
 
 ```vue
 <template>
@@ -307,8 +303,6 @@ $ bun run all
 $ cd docs && bun install && bun run dev
 ```
 
-## Contributors
+## 👥 Contributors
 
-* [@flbulgarelli](https://github.com/flbulgarelli)
-* [@Almo7aya](https://github.com/Almo7aya)
-* [@ShadowNineX](https://github.com/ShadowNineX)
+[![Contributors](https://stg.contrib.rocks/image?repo=ShadowNineX/headbreaker)](https://github.com/ShadowNineX/headbreaker/graphs/contributors)
