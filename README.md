@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🧩 🤯 Headbreaker
+# :jigsaw: :exploding_head: Headbreaker
 
 > Jigsaw Puzzles Framework written in TypeScript — v4.0
 
 `headbreaker` - a Spanish pun for _rompecabezas_ - is a TypeScript framework for building all kinds of jigsaw puzzles.
 
-[✅ Features](#-features) · [📦 Install](#-installing) · [⏳ TL;DR](#-tldr-sample) · [🏁 Quick Start](#-quick-start) · [⚛️ React](#react-puzzle) · [💚 Vue](#vue-puzzle) · [👀 Docs](#-demo-and-api-docs) · [❓ Questions](#-questions) · [🏗 Develop](#-develop)
+[:white_check_mark: Features](#features) · [:package: Install](#installing) · [:hourglass_flowing_sand: TL;DR](#tldr) · [:checkered_flag: Quick Start](#quick-start) · [:atom_symbol: React](#react) · [:green_heart: Vue](#vue) · [:eyes: Docs](https://ShadowNineX.github.io/headbreaker/) · [:question: Questions](#questions) · [:building_construction: Develop](#develop)
 
 [![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=ShadowNineX_headbreaker&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ShadowNineX_headbreaker)
@@ -20,7 +20,7 @@
 > [!NOTE]
 > Documentation is still being updated for v4. Some pages may reflect older behavior — if something doesn't match, the source code and tests are the best reference.
 
-## ☑️ Features
+## <a id="features"></a>:ballot_box_with_check: Features
 
  * Written in TypeScript with full type declarations
  * Headless domain-model support
@@ -29,7 +29,7 @@
  * Zero-dependencies — Konva.js is an optional rendering backend that can be replaced with custom code
  * ES Module and CommonJS output formats
 
-## 📦 Installing
+## <a id="installing"></a>:package: Installing
 
 ```bash
 bun add headbreaker-ts
@@ -38,7 +38,7 @@ bun add headbreaker-ts
 bun add konva
 ```
 
-## ⏳ TL;DR sample
+## <a id="tldr"></a>:hourglass_flowing_sand: TL;DR sample
 
 If you just want to see a — very basic — 2x2 puzzle in your web-browser, then create an HTML file with the following contents 😁:
 
@@ -71,7 +71,7 @@ And voilà! 🎊
 
 ![sample puzzle](https://shadowninex.github.io/headbreaker/images/tldr_puzzle.png)
 
-## 🏁 Quick start
+## <a id="quick-start"></a>:checkered_flag: Quick start
 
 `headbreaker` is a library which solves two different — but related — problems:
 
@@ -183,7 +183,7 @@ const dump = puzzle.export()
 const otherPuzzle = Puzzle.import(dump)
 ```
 
-## ⚛️ React Puzzle
+## <a id="react"></a>:atom_symbol: React Puzzle
 
 ```tsx
 import { Canvas, painters } from 'headbreaker-ts'
@@ -232,7 +232,7 @@ export default function Home() {
 }
 ```
 
-## 💚 Vue Puzzle
+## <a id="vue"></a>:green_heart: Vue Puzzle
 
 ```vue
 <template>
@@ -274,15 +274,11 @@ onMounted(() => {
 </script>
 ```
 
-## 👀 Demo and API Docs
-
-See [ShadowNineX.github.io/headbreaker](https://ShadowNineX.github.io/headbreaker/)
-
-## ❓ Questions
+## <a id="questions"></a>:question: Questions
 
 Do you have any questions or doubts? Please feel free to check [the existing discussions](https://github.com/ShadowNineX/headbreaker/discussions) or open a new one 🙋.
 
-## 🏗 Develop
+## <a id="develop"></a>:building_construction: Develop
 
 ```bash
 # install project
@@ -303,6 +299,6 @@ $ bun run all
 $ cd docs && bun install && bun run dev
 ```
 
-## 👥 Contributors
+## :busts_in_silhouette: Contributors
 
 [![Contributors](https://stg.contrib.rocks/image?repo=ShadowNineX/headbreaker)](https://github.com/ShadowNineX/headbreaker/graphs/contributors)
