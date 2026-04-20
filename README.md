@@ -189,8 +189,6 @@ const otherPuzzle = Puzzle.import(dump)
 
 ## React Puzzle
 
-> Check also [https://github.com/ShadowNineX/headbreaker-react-sample](https://github.com/ShadowNineX/headbreaker-react-sample)
-
 ```tsx
 import { Canvas, painters } from 'headbreaker-ts'
 import { useEffect, useRef } from 'react'
@@ -239,8 +237,6 @@ export default function Home() {
 ```
 
 ## Vue Puzzle
-
-> Check also [https://github.com/ShadowNineX/headbreaker-vue-sample](https://github.com/ShadowNineX/headbreaker-vue-sample)
 
 ```vue
 <template>

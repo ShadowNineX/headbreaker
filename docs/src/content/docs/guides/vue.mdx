@@ -18,11 +18,12 @@ import { LinkCard } from '@astrojs/starlight/components';
   </div>
 </template>
 
-<script>
-import headbreaker from 'headbreaker-ts';
+<script setup lang="ts">
+import { Canvas, painters } from 'headbreaker-ts';
+import { onMounted } from 'vue';
 
-const drawPuzzle = () => {
-  const autogen = new headbreaker.Canvas('puzzle', {
+onMounted(() => {
+  const autogen = new Canvas('puzzle', {
     width: 800,
     height: 650,
     pieceSize: 100,
@@ -30,7 +31,7 @@ const drawPuzzle = () => {
     borderFill: 10,
     strokeWidth: 2,
     lineSoftness: 0.18,
-    painter: new headbreaker.painters.Konva(),
+    painter: new painters.Konva(),
   });
 
   autogen.autogenerate({
@@ -45,13 +46,7 @@ const drawPuzzle = () => {
   });
 
   autogen.draw();
-};
-
-export default {
-  mounted() {
-    drawPuzzle()
-  },
-};
+});
 </script>
 ```
 
