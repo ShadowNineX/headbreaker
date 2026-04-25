@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.0.5](https://github.com/flbulgarelli/headbreaker/tree/v4.0.5)
+
+[Full Changelog](https://github.com/flbulgarelli/headbreaker/compare/v4.0.0...v4.0.5)
+
+**Fixes:**
+
+- Added missing JSDoc `@returns` descriptions across `piece.ts`, `puzzle.ts`, and `validator.ts`
+- Replaced unsafe non-null assertions (`!`) with optional chaining (`?.`) in test suite
+- Expanded `AGENTS.md` with full architecture table, testing conventions, and gotchas
+
 ## [v4.0.0](https://github.com/flbulgarelli/headbreaker/tree/v4.0.0)
 
 [Full Changelog](https://github.com/flbulgarelli/headbreaker/compare/v2.0.0...v4.0.0)
