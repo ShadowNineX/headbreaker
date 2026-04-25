@@ -6,7 +6,7 @@ export default defineConfig({
     globals: true,
     coverage: {
       provider: 'v8',
-      reporter: ['json-summary', 'text'],
+      reporter: ['lcov', 'text'],
     },
   },
 });

@@ -10,7 +10,7 @@
 
 [![Build Status](https://github.com/ShadowNineX/headbreaker/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/ShadowNineX/headbreaker/actions)
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=ShadowNineX_headbreaker&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ShadowNineX_headbreaker)
-![Coverage](./badges/coverage.svg)
+[![codecov](https://codecov.io/gh/ShadowNineX/headbreaker/branch/main/graph/badge.svg)](https://codecov.io/gh/ShadowNineX/headbreaker)
 
 </div>
 
