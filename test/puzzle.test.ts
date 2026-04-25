@@ -331,10 +331,10 @@ describe('puzzle', () => {
       [50, 60],
       [70, 80],
     ]);
-    expect(puzzle.pieces[0].centralAnchor!.asPair()).toEqual([10, 20]);
-    expect(puzzle.pieces[1].centralAnchor!.asPair()).toEqual([30, 40]);
-    expect(puzzle.pieces[2].centralAnchor!.asPair()).toEqual([50, 60]);
-    expect(puzzle.pieces[3].centralAnchor!.asPair()).toEqual([70, 80]);
+    expect(puzzle.pieces[0].centralAnchor?.asPair()).toEqual([10, 20]);
+    expect(puzzle.pieces[1].centralAnchor?.asPair()).toEqual([30, 40]);
+    expect(puzzle.pieces[2].centralAnchor?.asPair()).toEqual([50, 60]);
+    expect(puzzle.pieces[3].centralAnchor?.asPair()).toEqual([70, 80]);
   });
 
   it('fires onTranslate listeners for every piece', () => {

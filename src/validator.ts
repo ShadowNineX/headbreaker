@@ -114,7 +114,7 @@ abstract class AbstractValidator {
   /**
    * The last computed validity, or `undefined` before the first {@link validate}.
    *
-   * @returns {boolean | undefined}
+   * @returns {boolean | undefined} The last computed validity result.
    */
   get valid(): boolean | undefined {
     return this._valid;
@@ -123,7 +123,7 @@ abstract class AbstractValidator {
   /**
    * Whether this validator is the {@link NullValidator}.
    *
-   * @returns {boolean}
+   * @returns {boolean} Whether this is a no-op null validator.
    */
   get isNull(): boolean {
     return false;

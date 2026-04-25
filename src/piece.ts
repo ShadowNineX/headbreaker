@@ -432,7 +432,7 @@ export default class Piece {
    *
    * @param {number} x - Target x coordinate.
    * @param {number} y - Target y coordinate.
-   * @returns {boolean}
+   * @returns {boolean} Whether this piece is positioned at the given coordinates.
    */
   isAt(x: number, y: number): boolean {
     return this.centralAnchor!.isAt(x, y);
@@ -530,7 +530,7 @@ export default class Piece {
    *
    * @param {number} dx - Horizontal displacement.
    * @param {number} dy - Vertical displacement.
-   * @returns {boolean}
+   * @returns {boolean} Whether the drag motion should disconnect this piece.
    */
   dragShouldDisconnect(dx: number, dy: number): boolean {
     return this.puzzle.dragShouldDisconnect(this, dx, dy);
@@ -562,7 +562,7 @@ export default class Piece {
    * Whether this piece can connect horizontally with `other`.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether a horizontal connection is possible.
    */
   canConnectHorizontallyWith(other: Piece): boolean {
     return this.horizontalConnector.canConnectWith(this, other, this.proximity);
@@ -572,7 +572,7 @@ export default class Piece {
    * Whether this piece can connect vertically with `other`.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether a vertical connection is possible.
    */
   canConnectVerticallyWith(other: Piece): boolean {
     return this.verticalConnector.canConnectWith(this, other, this.proximity);
@@ -582,7 +582,7 @@ export default class Piece {
    * Whether `other` is within vertical proximity of this piece.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether `other` is close enough vertically to snap.
    */
   verticallyCloseTo(other: Piece): boolean {
     return this.verticalConnector.closeTo(this, other, this.proximity);
@@ -592,7 +592,7 @@ export default class Piece {
    * Whether `other` is within horizontal proximity of this piece.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether `other` is close enough horizontally to snap.
    */
   horizontallyCloseTo(other: Piece): boolean {
     return this.horizontalConnector.closeTo(this, other, this.proximity);
@@ -602,7 +602,7 @@ export default class Piece {
    * Whether the vertical inserts of this piece and `other` match.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether the vertical inserts are complementary.
    */
   verticallyMatch(other: Piece): boolean {
     return this.verticalConnector.match(this, other);
@@ -612,7 +612,7 @@ export default class Piece {
    * Whether the horizontal inserts of this piece and `other` match.
    *
    * @param {Piece} other - The neighbour piece.
-   * @returns {boolean}
+   * @returns {boolean} Whether the horizontal inserts are complementary.
    */
   horizontallyMatch(other: Piece): boolean {
     return this.horizontalConnector.match(this, other);
@@ -699,7 +699,7 @@ export default class Piece {
    * one provided by the owning puzzle when there is no piece-specific one.
    *
    * @param {'vertical' | 'horizontal'} kind - Which connector to return.
-   * @returns {Connector}
+   * @returns {Connector} The connector for the given axis.
    */
   getConnector(kind: 'vertical' | 'horizontal'): Connector {
     if (kind === 'horizontal') {

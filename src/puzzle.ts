@@ -377,7 +377,7 @@ export default class Puzzle {
   /**
    * Computes whether the puzzle currently satisfies its validator.
    *
-   * @returns {boolean}
+   * @returns {boolean} Whether the puzzle satisfies its validator.
    */
   isValid(): boolean {
     return this.validator.isValid(this);
@@ -455,7 +455,7 @@ export default class Puzzle {
    * @param {Piece} piece - The piece being dragged.
    * @param {number} dx - Horizontal displacement.
    * @param {number} dy - Vertical displacement.
-   * @returns {boolean}
+   * @returns {boolean} Whether the drag motion should disconnect the piece.
    */
   dragShouldDisconnect(piece: Piece, dx: number, dy: number): boolean {
     return this.dragMode.dragShouldDisconnect(piece, dx, dy);
@@ -465,7 +465,7 @@ export default class Puzzle {
    * Serializes the puzzle into a {@link PuzzleDump}.
    *
    * @param {{ compact?: boolean }} [options] - Forwarded to {@link Piece#export}.
-   * @returns {PuzzleDump}
+   * @returns {PuzzleDump} The serialized puzzle state.
    */
   export(options: { compact?: boolean } = {}): PuzzleDump {
     return {
