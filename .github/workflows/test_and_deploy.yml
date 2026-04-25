@@ -32,6 +32,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Update npm for OIDC support
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: npm install -g npm@latest
 
       - name: Deploy to NPM
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
