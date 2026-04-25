@@ -43,22 +43,46 @@ interface HeadbreakerGlobal {
   };
 }
 
+/** A Konva visual group representing a piece. */
 export type Group = Konva.Group;
 
 export type { LabelMetadata } from './piece';
 
+/**
+ * Visual artifacts associated with a single piece on the canvas:
+ * its line `shape`, its containing `group`, and an optional text `label`.
+ */
 export interface Figure {
   shape?: Konva.Line;
   group?: Konva.Group;
   label?: Konva.Text;
 }
 
+/**
+ * Listener invoked when two pieces (and their figures) connect or disconnect.
+ *
+ * @param {Piece} piece - The piece raising the event.
+ * @param {Figure} figure - The figure of `piece`.
+ * @param {Piece} targetPiece - The neighbour piece.
+ * @param {Figure} targetFigure - The figure of `targetPiece`.
+ * @returns {void}
+ */
 export type CanvasConnectionListener = (
   piece: Piece,
   figure: Figure,
   targetPiece: Piece,
   targetFigure: Figure,
 ) => void;
+
+/**
+ * Listener invoked when a piece is translated on the canvas.
+ *
+ * @param {Piece} piece - The piece that moved.
+ * @param {Figure} figure - The figure of `piece`.
+ * @param {number} dx - Horizontal displacement.
+ * @param {number} dy - Vertical displacement.
+ * @returns {void}
+ */
 export type CanvasTranslationListener = (
   piece: Piece,
   figure: Figure,
@@ -66,6 +90,9 @@ export type CanvasTranslationListener = (
   dy: number,
 ) => void;
 
+/**
+ * Free-form metadata accepted by canvas-level templates and pieces.
+ */
 export interface CanvasMetadata {
   id?: string;
   targetPosition?: Vector;
@@ -79,12 +106,21 @@ export interface CanvasMetadata {
   [key: string]: unknown;
 }
 
+/**
+ * Reusable description of a piece, combining a {@link Structure}, an optional
+ * {@link Size} and free-form {@link CanvasMetadata}.
+ */
 export interface Template {
   structure: Structure.StructureLike;
   size?: Size;
   metadata: CanvasMetadata;
 }
 
+/**
+ * The visual layer of a puzzle. Owns a {@link Puzzle}, a {@link Painter} and
+ * the set of {@link Figure}s rendered for each piece, and exposes a friendly
+ * API to draw, shuffle and validate the puzzle.
+ */
 export default class Canvas {
   width: number;
   height: number;
@@ -111,6 +147,25 @@ export default class Canvas {
   _drawn: boolean = false;
   autoconnected: boolean = false;
 
+  /**
+   * @param {string} id - Id of the DOM element where the canvas is mounted.
+   * @param {object} options - Configuration object.
+   * @param {number} options.width - Canvas width in pixels.
+   * @param {number} options.height - Canvas height in pixels.
+   * @param {Vector | number} [options.pieceSize] - Default piece diameter. Defaults to `50`.
+   * @param {number} [options.proximity] - Maximum per-axis distance considered "close" by connectors. Defaults to `10`.
+   * @param {Vector | number} [options.borderFill] - Inset applied to piece borders. Defaults to `0`.
+   * @param {number} [options.strokeWidth] - Stroke width in pixels. Defaults to `3`.
+   * @param {string} [options.strokeColor] - Stroke color. Defaults to `'black'`.
+   * @param {number} [options.lineSoftness] - Tension applied to non-Bezier outlines. Defaults to `0`.
+   * @param {boolean} [options.preventOffstageDrag] - When `true`, prevents pieces from being dragged off-canvas.
+   * @param {ImageLike | null} [options.image] - Optional canvas-wide image fill.
+   * @param {boolean} [options.fixed] - When `true`, the puzzle is treated as fixed-size for reframing.
+   * @param {Painter | null} [options.painter] - Custom painter; defaults to the registered KonvaPainter, or a no-op.
+   * @param {Vector | number | null} [options.puzzleDiameter] - Optional explicit puzzle diameter.
+   * @param {Vector | number | null} [options.maxPiecesCount] - Optional explicit max grid size.
+   * @param {Outline | null} [options.outline] - Custom outline; defaults to {@link Classic}.
+   */
   constructor(
     id: string,
     {
@@ -174,11 +229,23 @@ export default class Canvas {
     this._outline = outline || Classic;
   }
 
+  /**
+   * Renders a single piece described by `template` and adds it to the puzzle.
+   *
+   * @param {Template} template - The piece template.
+   * @returns {void}
+   */
   sketchPiece({ structure, size = undefined, metadata }: Template): void {
     SpatialMetadata.initialize(metadata, VectorModule.zero());
     this.renderPiece(this._newPiece(structure, size ?? null, metadata));
   }
 
+  /**
+   * Renders the figure of an already-built piece.
+   *
+   * @param {Piece} piece - The piece to render.
+   * @returns {void}
+   */
   renderPiece(piece: Piece): void {
     const figure: Figure = {
       label: undefined,
@@ -199,6 +266,12 @@ export default class Canvas {
     this._bindPieceToGroup(piece, figure.group!);
   }
 
+  /**
+   * Renders the figures of every piece in `pieces`.
+   *
+   * @param {Piece[]} pieces - Pieces to render.
+   * @returns {void}
+   */
   renderPieces(pieces: Piece[]): void {
     pieces.forEach((it) => {
       this._annotatePiecePosition(it);
@@ -206,6 +279,12 @@ export default class Canvas {
     });
   }
 
+  /**
+   * Adopts a {@link Puzzle} as this canvas's model and renders all its pieces.
+   *
+   * @param {Puzzle} puzzle - The puzzle to render.
+   * @returns {void}
+   */
   renderPuzzle(puzzle: Puzzle): void {
     this.pieceSize = puzzle.pieceSize;
     this.proximity = puzzle.proximity * 2;
@@ -213,6 +292,17 @@ export default class Canvas {
     this.renderPieces(puzzle.pieces);
   }
 
+  /**
+   * Builds a puzzle of the given grid size using a {@link Manufacturer} and
+   * renders it on the canvas.
+   *
+   * @param {object} [options] - Generation options.
+   * @param {number} [options.horizontalPiecesCount] - Number of columns. Defaults to `5`.
+   * @param {number} [options.verticalPiecesCount] - Number of rows. Defaults to `5`.
+   * @param {InsertsGenerator} [options.insertsGenerator] - Inserts generator. Defaults to {@link twoAndTwo}.
+   * @param {CanvasMetadata[]} [options.metadata] - Per-piece metadata.
+   * @returns {void}
+   */
   autogenerate({
     horizontalPiecesCount = 5,
     verticalPiecesCount = 5,
@@ -231,6 +321,12 @@ export default class Canvas {
     this.autogenerateWithManufacturer(manufacturer);
   }
 
+  /**
+   * Builds the puzzle from a configured {@link Manufacturer} and renders it.
+   *
+   * @param {Manufacturer} manufacturer - The configured manufacturer.
+   * @returns {void}
+   */
   autogenerateWithManufacturer(manufacturer: Manufacturer): void {
     manufacturer.withStructure(this.settings);
     this._puzzle = manufacturer.build();
@@ -238,10 +334,26 @@ export default class Canvas {
     this.renderPieces(this.puzzle.pieces);
   }
 
+  /**
+   * Registers `template` under `name` so it can be reused via
+   * {@link Canvas#sketchPieceUsingTemplate}.
+   *
+   * @param {string} name - The template name.
+   * @param {Template} template - The template to register.
+   * @returns {void}
+   */
   defineTemplate(name: string, template: Template): void {
     this.templates[name] = template;
   }
 
+  /**
+   * Sketches a piece using a previously registered template.
+   *
+   * @param {string} id - The id assigned to the new piece.
+   * @param {string} templateName - The name of the registered template.
+   * @returns {void}
+   * @throws {Error} If no template with that name has been registered.
+   */
   sketchPieceUsingTemplate(id: string, templateName: string): void {
     const options = this.templates[templateName];
     if (!options) {
@@ -251,6 +363,12 @@ export default class Canvas {
     this.sketchPiece({ structure: options.structure, metadata });
   }
 
+  /**
+   * Shuffles every piece uniformly inside the canvas, scaled by `farness`.
+   *
+   * @param {number} [farness] - Fraction of the canvas to shuffle within. Defaults to `1`.
+   * @returns {void}
+   */
   shuffle(farness: number = 1): void {
     const offset = this.pieceRadius;
     this.puzzle.shuffle(
@@ -261,18 +379,44 @@ export default class Canvas {
     this.autoconnected = true;
   }
 
+  /**
+   * Shuffles columns independently using {@link Shuffler.columns}.
+   *
+   * @param {number} [farness] - Noise factor. Defaults to `1`.
+   * @returns {void}
+   */
   shuffleColumns(farness: number = 1): void {
     this.shuffleWith(farness, Shuffler.columns);
   }
 
+  /**
+   * Shuffles every piece on the grid using {@link Shuffler.grid}.
+   *
+   * @param {number} [farness] - Noise factor. Defaults to `1`.
+   * @returns {void}
+   */
   shuffleGrid(farness: number = 1): void {
     this.shuffleWith(farness, Shuffler.grid);
   }
 
+  /**
+   * Lays the puzzle out along a single line using {@link Shuffler.line}.
+   *
+   * @param {number} [farness] - Noise factor. Defaults to `1`.
+   * @returns {void}
+   */
   shuffleLine(farness: number = 1): void {
     this.shuffleWith(farness, Shuffler.line);
   }
 
+  /**
+   * Solves the puzzle, applies the given {@link Shuffler.Shuffler}, then adds
+   * a small amount of noise.
+   *
+   * @param {number} farness - Noise factor.
+   * @param {Shuffler.Shuffler} shuffler - The shuffler to apply.
+   * @returns {void}
+   */
   shuffleWith(farness: number, shuffler: Shuffler.Shuffler): void {
     this.solve();
     this.puzzle.shuffleWith(
@@ -289,6 +433,11 @@ export default class Canvas {
     this.autoconnected = true;
   }
 
+  /**
+   * Moves every piece to its target position and autoconnects the puzzle.
+   *
+   * @returns {void}
+   */
   solve(): void {
     this.puzzle.pieces.forEach((it) => {
       const { x, y } = it.metadata.targetPosition;
@@ -297,11 +446,24 @@ export default class Canvas {
     this.autoconnect();
   }
 
+  /**
+   * Tries to connect every piece with every other piece.
+   *
+   * @returns {void}
+   */
   autoconnect(): void {
     this.puzzle.autoconnect();
     this.autoconnected = true;
   }
 
+  /**
+   * Wires keyboard gestures into the painter. By default, Shift forces
+   * connection while dragging and Control forces disconnection.
+   *
+   * @param {Record<string, (puzzle: Puzzle) => void>} [gestures] - Optional
+   *   custom gesture map.
+   * @returns {void}
+   */
   registerKeyboardGestures(
     gestures?: Record<string, (puzzle: Puzzle) => void>,
   ): void {
@@ -312,6 +474,13 @@ export default class Canvas {
     this._painter.registerKeyboardGestures(this, gestures ?? defaultGestures);
   }
 
+  /**
+   * Draws the puzzle for the first time. Subsequent draws should use
+   * {@link Canvas#redraw}.
+   *
+   * @returns {void}
+   * @throws {Error} If `draw` has already been called.
+   */
   draw(): void {
     if (this._drawn) {
       throw new Error(
@@ -327,16 +496,32 @@ export default class Canvas {
     this._drawn = true;
   }
 
+  /**
+   * Forces a redraw of the underlying painter.
+   *
+   * @returns {void}
+   */
   redraw(): void {
     this._painter.draw(this);
   }
 
+  /**
+   * Reapplies the configured fill (image or color) to every piece.
+   *
+   * @returns {void}
+   */
   refill(): void {
     this.puzzle.pieces.forEach((piece) => {
       this._painter.fill(this, piece, this.getFigure(piece));
     });
   }
 
+  /**
+   * Wipes the canvas state (puzzle, figures, templates) and re-initializes
+   * the painter.
+   *
+   * @returns {void}
+   */
   clear(): void {
     this._puzzle = null;
     this.figures = {};
@@ -346,58 +531,121 @@ export default class Canvas {
     this._painter.reinitialize(this);
   }
 
+  /**
+   * Attaches a {@link ConnectionRequirement} to both connectors.
+   *
+   * @param {ConnectionRequirement} requirement - The new requirement.
+   * @returns {void}
+   */
   attachConnectionRequirement(requirement: ConnectionRequirement): void {
     this.puzzle.attachConnectionRequirement(requirement);
   }
 
+  /**
+   * Removes any active {@link ConnectionRequirement}.
+   *
+   * @returns {void}
+   */
   clearConnectionRequirements(): void {
     this.puzzle.clearConnectionRequirements();
   }
 
+  /**
+   * Replaces the puzzle's {@link Validator}.
+   *
+   * @param {Validator} validator - The new validator.
+   * @returns {void}
+   */
   attachValidator(validator: Validator): void {
     this.puzzle.attachValidator(validator);
   }
 
+  /**
+   * Attaches the built-in {@link SpatialMetadata.solved} validator.
+   *
+   * @returns {void}
+   */
   attachSolvedValidator(): void {
     this.puzzle.attachValidator(new PuzzleValidator(SpatialMetadata.solved));
   }
 
+  /**
+   * Attaches the built-in {@link SpatialMetadata.relativePosition} validator.
+   *
+   * @returns {void}
+   */
   attachRelativePositionValidator(): void {
     this.puzzle.attachValidator(
       new PuzzleValidator(SpatialMetadata.relativePosition),
     );
   }
 
+  /**
+   * Attaches a {@link PuzzleValidator.relativeRefs} validator with the given
+   * expected reference positions.
+   *
+   * @param {[number, number][]} expected - One reference per piece.
+   * @returns {void}
+   */
   attachRelativeRefsValidator(expected: [number, number][]): void {
     this.puzzle.attachValidator(
       new PuzzleValidator(PuzzleValidator.relativeRefs(expected)),
     );
   }
 
+  /**
+   * Attaches the built-in {@link SpatialMetadata.absolutePosition} validator.
+   *
+   * @returns {void}
+   */
   attachAbsolutePositionValidator(): void {
     this.puzzle.attachValidator(
       new PieceValidator(SpatialMetadata.absolutePosition),
     );
   }
 
+  /**
+   * Subscribes `f` to canvas-level connection events.
+   *
+   * @param {CanvasConnectionListener} f - Listener to register.
+   * @returns {void}
+   */
   onConnect(f: CanvasConnectionListener): void {
     this.puzzle.onConnect((piece, target) => {
       f(piece, this.getFigure(piece), target, this.getFigure(target));
     });
   }
 
+  /**
+   * Subscribes `f` to canvas-level disconnection events.
+   *
+   * @param {CanvasConnectionListener} f - Listener to register.
+   * @returns {void}
+   */
   onDisconnect(f: CanvasConnectionListener): void {
     this.puzzle.onDisconnect((piece, target) => {
       f(piece, this.getFigure(piece), target, this.getFigure(target));
     });
   }
 
+  /**
+   * Subscribes `f` to canvas-level translation events.
+   *
+   * @param {CanvasTranslationListener} f - Listener to register.
+   * @returns {void}
+   */
   onTranslate(f: CanvasTranslationListener): void {
     this.puzzle.onTranslate((piece, dx, dy) => {
       f(piece, this.getFigure(piece), dx, dy);
     });
   }
 
+  /**
+   * Reframes a fixed-size puzzle so it fits entirely within the canvas.
+   *
+   * @returns {void}
+   * @throws {Error} If the canvas is not fixed-size.
+   */
   reframeWithinDimensions(): void {
     if (!this.fixed)
       throw new Error('Only fixed canvas can be reframed');
@@ -407,28 +655,60 @@ export default class Canvas {
     );
   }
 
+  /**
+   * Subscribes `f` to the puzzle's invalid → valid transition.
+   *
+   * @param {ValidationListener} f - Listener to register.
+   * @returns {void}
+   */
   onValid(f: ValidationListener): void {
     this.puzzle.onValid(f);
   }
 
+  /** @returns {boolean | undefined} The puzzle's last cached validity. */
   get valid(): boolean | undefined {
     return this.puzzle.valid;
   }
 
+  /**
+   * Returns the {@link Figure} of `piece`, looked up by metadata id.
+   *
+   * @param {Piece} piece - The piece.
+   * @returns {Figure} The figure.
+   */
   getFigure(piece: Piece): Figure {
     return this.getFigureById(piece.metadata.id);
   }
 
+  /**
+   * Returns the {@link Figure} registered under `id`.
+   *
+   * @param {string | number} id - The figure id.
+   * @returns {Figure} The figure.
+   */
   getFigureById(id: string | number): Figure {
     return this.figures[id];
   }
 
+  /**
+   * Resizes the canvas surface.
+   *
+   * @param {number} width - New width in pixels.
+   * @param {number} height - New height in pixels.
+   * @returns {void}
+   */
   resize(width: number, height: number): void {
     this.width = width;
     this.height = height;
     this._painter.resize(this, width, height);
   }
 
+  /**
+   * Applies a uniform scale factor to the canvas.
+   *
+   * @param {Vector | number} factor - Scale factor on each axis.
+   * @returns {void}
+   */
   scale(factor: Vector | number): void {
     this._painter.scale(this, VectorModule.cast(factor));
   }
@@ -461,6 +741,13 @@ export default class Canvas {
     });
   }
 
+  /**
+   * Returns the resolved {@link ImageMetadata} for `piece`, before the
+   * {@link Canvas#_imageAdjuster} is applied.
+   *
+   * @param {Piece} piece - The piece.
+   * @returns {ImageMetadataType | null} The base image metadata.
+   */
   _baseImageMetadataFor(piece: Piece): ImageMetadataType | null {
     if (this.imageMetadata) {
       const s = piece.metadata.scale || this.imageMetadata.scale || 1;
@@ -473,6 +760,13 @@ export default class Canvas {
     return ImageMetadata.asImageMetadata(piece.metadata.image);
   }
 
+  /**
+   * Returns the {@link ImageMetadata} for `piece`, after applying the active
+   * image adjuster.
+   *
+   * @param {Piece} piece - The piece.
+   * @returns {ImageMetadataType | null} The adjusted image metadata.
+   */
   imageMetadataFor(piece: Piece): ImageMetadataType | null {
     const base = this._baseImageMetadataFor(piece);
     if (!base)
@@ -480,6 +774,13 @@ export default class Canvas {
     return this._imageAdjuster(base);
   }
 
+  /**
+   * Configures the active image adjuster so the canvas-wide image fits the
+   * puzzle along the given {@link Axis}.
+   *
+   * @param {Axis} axis - The axis to fit along.
+   * @returns {void}
+   */
   adjustImagesToPuzzle(axis: Axis): void {
     this._imageAdjuster = (image) => {
       const s
@@ -492,14 +793,31 @@ export default class Canvas {
     };
   }
 
+  /**
+   * Convenience around {@link Canvas#adjustImagesToPuzzle} on the horizontal axis.
+   *
+   * @returns {void}
+   */
   adjustImagesToPuzzleWidth(): void {
     this.adjustImagesToPuzzle(Horizontal);
   }
 
+  /**
+   * Convenience around {@link Canvas#adjustImagesToPuzzle} on the vertical axis.
+   *
+   * @returns {void}
+   */
   adjustImagesToPuzzleHeight(): void {
     this.adjustImagesToPuzzle(Vertical);
   }
 
+  /**
+   * Configures the active image adjuster so the per-piece image fits a single
+   * piece along the given {@link Axis}.
+   *
+   * @param {Axis} axis - The axis to fit along.
+   * @returns {void}
+   */
   adjustImagesToPiece(axis: Axis): void {
     this._imageAdjuster = (image) => {
       const s
@@ -509,10 +827,20 @@ export default class Canvas {
     };
   }
 
+  /**
+   * Convenience around {@link Canvas#adjustImagesToPiece} on the horizontal axis.
+   *
+   * @returns {void}
+   */
   adjustImagesToPieceWidth(): void {
     this.adjustImagesToPiece(Horizontal);
   }
 
+  /**
+   * Convenience around {@link Canvas#adjustImagesToPiece} on the vertical axis.
+   *
+   * @returns {void}
+   */
   adjustImagesToPieceHeight(): void {
     this.adjustImagesToPiece(Vertical);
   }
@@ -536,10 +864,12 @@ export default class Canvas {
     });
   }
 
+  /** @returns {Vector} The puzzle diameter, either explicit or estimated from the grid. */
   get puzzleDiameter(): Vector {
     return this._puzzleDiameter || this.estimatedPuzzleDiameter;
   }
 
+  /** @returns {Vector} The puzzle diameter estimated from {@link Canvas#maxPiecesCount} and the piece diameter. */
   get estimatedPuzzleDiameter(): Vector {
     return VectorModule.plus(
       VectorModule.multiply(this.pieceDiameter, this.maxPiecesCount),
@@ -547,6 +877,10 @@ export default class Canvas {
     );
   }
 
+  /**
+   * @returns {Vector} The configured maximum grid size.
+   * @throws {Error} If `maxPiecesCount` was not specified.
+   */
   get maxPiecesCount(): Vector {
     if (!this._maxPiecesCount) {
       throw new Error('max pieces count was not specified');
@@ -554,14 +888,17 @@ export default class Canvas {
     return this._maxPiecesCount;
   }
 
+  /** @returns {Vector} Half of the default piece diameter. */
   get pieceRadius(): Vector {
     return this.pieceSize.radius;
   }
 
+  /** @returns {Vector} The default piece diameter. */
   get pieceDiameter(): Vector {
     return this.pieceSize.diameter;
   }
 
+  /** @returns {Vector} The cumulative offset that figures need around them (stroke + border fill). */
   get figurePadding(): Vector {
     this._figurePadding ??= VectorModule.plus(
       this.strokeWidth,
@@ -570,10 +907,12 @@ export default class Canvas {
     return this._figurePadding;
   }
 
+  /** @returns {number} The number of figures currently rendered. */
   get figuresCount(): number {
     return Object.values(this.figures).length;
   }
 
+  /** @returns {Puzzle} The owned puzzle, lazily initialized. */
   get puzzle(): Puzzle {
     if (!this._puzzle) {
       this._initializeEmptyPuzzle();
@@ -581,6 +920,7 @@ export default class Canvas {
     return this._puzzle!;
   }
 
+  /** @returns {{ pieceRadius: Vector, proximity: number }} Settings forwarded to the puzzle. */
   get settings() {
     return { pieceRadius: this.pieceRadius, proximity: this.proximity };
   }

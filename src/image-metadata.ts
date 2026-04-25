@@ -1,14 +1,34 @@
 import type { Vector } from './vector';
 import { vector } from './vector';
 
+/**
+ * A picture used to fill the body of a piece, plus optional positioning info.
+ */
 export interface ImageMetadata {
+  /** The HTML image or canvas to render. */
   content: HTMLImageElement | HTMLCanvasElement;
+  /** Optional positional offset within the piece. */
   offset?: Vector;
+  /** Optional uniform scale factor. */
   scale?: number;
 }
 
+/**
+ * Either a raw image element, a canvas, or a structured {@link ImageMetadata}.
+ */
 export type ImageLike = HTMLImageElement | HTMLCanvasElement | ImageMetadata;
 
+/**
+ * Coerces an {@link ImageLike} value into an {@link ImageMetadata} object.
+ *
+ * - Raw `HTMLImageElement`/`HTMLCanvasElement` values are wrapped with a
+ *   default offset of `(1, 1)` and scale `1`.
+ * - `null`/`undefined` values become `null`.
+ * - Existing {@link ImageMetadata} values are returned as-is.
+ *
+ * @param {ImageLike | null | undefined} imageLike - Value to coerce.
+ * @returns {ImageMetadata | null} The structured metadata, or `null`.
+ */
 export function asImageMetadata(
   imageLike: ImageLike | null | undefined,
 ): ImageMetadata | null {

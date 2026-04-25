@@ -1,3 +1,9 @@
+/**
+ * Public API surface of the headbreaker library.
+ *
+ * Re-exports every type, class, function and namespace intended for end-user
+ * consumption. The module is the body of the default {@link index} barrel.
+ */
 import DummyPainter from './dummy-painter';
 import KonvaPainter from './konva-painter';
 
@@ -49,6 +55,10 @@ export type {
   ValidationListener,
   Validator,
 } from './validator';
+/**
+ * Map of bundled {@link Painter} implementations keyed by name. Useful when
+ * picking a painter dynamically (e.g. from a global config).
+ */
 export const painters = {
   Dummy: DummyPainter,
   Konva: KonvaPainter,
