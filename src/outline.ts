@@ -1,3 +1,10 @@
+/**
+ * @module outline
+ *
+ * Geometry strategies that produce the silhouette of a piece. Pluggable on
+ * {@link Canvas} via the `outline` constructor option.
+ */
+
 import type { Insert } from './insert';
 import type Piece from './piece';
 import type { Vector } from './vector';
@@ -24,16 +31,47 @@ function sd(p: Piece, t: number[], s: number[], n: number[]): number[] {
   return select(p.down, t, s, n);
 }
 
+/**
+ * Strategy that produces the polyline of a piece's silhouette as a flat
+ * `[x0, y0, x1, y1, ...]` array.
+ *
+ * Used by the rendering layer to draw piece shapes.
+ */
 export interface Outline {
+  /**
+   * Computes the silhouette of `piece` at the given size.
+   *
+   * @param {Piece} piece - The piece to draw.
+   * @param {Vector | number} [size] - Piece size (vector or scalar).
+   * @param {Vector | number} [borderFill] - Optional inset to apply to borders.
+   * @returns {number[]} Flat list of coordinates.
+   */
   draw: (
     piece: Piece,
     size?: Vector | number,
     borderFill?: Vector | number,
   ) => number[];
+  /**
+   * Whether the polyline produced by {@link Outline.draw} should be rendered
+   * as a Bezier curve (`true`) or as a tensioned line (`false`).
+   *
+   * @returns {boolean}
+   */
   isBezier: () => boolean;
 }
 
+/**
+ * Squared (rectangular) outline with simple in/out tabs and slots.
+ *
+ * @implements {Outline}
+ */
 export class Squared implements Outline {
+  /**
+   * @param {Piece} piece - The piece to draw.
+   * @param {Vector | number} [size] - Piece size; defaults to `50` per axis.
+   * @param {Vector | number} [borderFill] - Border inset; defaults to `0`.
+   * @returns {number[]} The silhouette polyline.
+   */
   draw(
     piece: Piece,
     size: Vector | number = 50,
@@ -84,18 +122,38 @@ export class Squared implements Outline {
     );
   }
 
+  /** @returns {boolean} Always `false` — the squared outline is rendered as a tensioned line. */
   isBezier(): boolean {
     return false;
   }
 }
 
+/**
+ * Rounded outline with curved tabs/slots and optional bezels at corners.
+ *
+ * @implements {Outline}
+ */
 export class Rounded implements Outline {
+  /** Whether to apply the corner bezel where two `None` borders meet. */
   bezelize: boolean;
+  /** Depth of the corner bezel as a fraction of the inner reference axis. */
   bezelDepth: number;
+  /** Depth of the tab/slot insert as a fraction of the reference axis. */
   insertDepth: number;
+  /** Length of the flat border on each side as a fraction of the full size. */
   borderLength: number;
+  /** Optional axis used to compute the insert reference length. */
   referenceInsertAxis: { atVector: (v: Vector) => number } | null;
 
+  /**
+   * @param {object} [options] - Outline tunables.
+   * @param {boolean} [options.bezelize] - Whether to bezel external corners.
+   * @param {number} [options.bezelDepth] - Bezel depth fraction. Defaults to `2/5`.
+   * @param {number} [options.insertDepth] - Insert depth fraction. Defaults to `4/5`.
+   * @param {number} [options.borderLength] - Border length fraction. Defaults to `1/3`.
+   * @param {{ atVector: (v: Vector) => number } | null} [options.referenceInsertAxis] -
+   *   Optional axis used to compute the insert reference length.
+   */
   constructor({
     bezelize = false,
     bezelDepth = 2 / 5,
@@ -116,12 +174,25 @@ export class Rounded implements Outline {
     this.referenceInsertAxis = referenceInsertAxis;
   }
 
+  /**
+   * Returns the length used to derive the insert reference, on the configured
+   * axis (or the smaller side when no axis is configured).
+   *
+   * @param {Vector} fullSize - The full piece size.
+   * @returns {number} The reference length.
+   */
   referenceInsertAxisLength(fullSize: Vector): number {
     return this.referenceInsertAxis
       ? this.referenceInsertAxis.atVector(fullSize)
       : VectorModule.inner.min(fullSize);
   }
 
+  /**
+   * @param {Piece} p - The piece to draw.
+   * @param {Vector | number} [size] - Piece size; defaults to `150` per axis.
+   * @param {Vector | number} [_borderFill] - Unused for rounded outlines.
+   * @returns {number[]} The silhouette polyline.
+   */
   draw(
     p: Piece,
     size: Vector | number = 150,
@@ -228,6 +299,13 @@ export class Rounded implements Outline {
     ];
   }
 
+  /**
+   * Returns which of the four corners (in `[NW, SW, SE, NE]` order) should be
+   * bezeled, given the piece's inserts.
+   *
+   * @param {Piece} p - The piece.
+   * @returns {boolean[]} Four-element array of bezel flags.
+   */
   bezels(p: Piece): boolean[] {
     if (this.bezelize) {
       return [
@@ -240,9 +318,15 @@ export class Rounded implements Outline {
     return [false, false, false, false];
   }
 
+  /** @returns {boolean} Always `true` — the rounded outline uses Bezier curves. */
   isBezier(): boolean {
     return true;
   }
 }
 
+/**
+ * The default {@link Squared} outline used when no other outline is specified.
+ *
+ * @type {Outline}
+ */
 export const Classic = new Squared();

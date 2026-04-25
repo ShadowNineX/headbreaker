@@ -152,6 +152,11 @@ describe('validator', () => {
     it('isNull returns true', () => {
       expect(puzzle.validator.isNull).toBe(true);
     });
+
+    it('isNull returns false on a non-null validator', () => {
+      const v = new PuzzleValidator(() => true);
+      expect(v.isNull).toBe(false);
+    });
   });
 });
 

@@ -7,4 +7,5 @@ docs/public/js/headbreaker.js.map
 docs/.astro/**
 docs/dist/**
 docs/node_modules/**
+coverage/**
 *.tsbuildinfo

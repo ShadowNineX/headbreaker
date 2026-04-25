@@ -942,4 +942,15 @@ describe('piece', () => {
     piece.drag(0, 0);
     expect(piece.centralAnchor).toEqual(anchor(5, 5));
   });
+
+  it('translate with quiet=true moves the piece without firing listeners', () => {
+    const puzzle = new Puzzle();
+    const piece = puzzle.newPiece({ down: Tab });
+    piece.locateAt(0, 0);
+    let fired = false;
+    piece.onTranslate(() => { fired = true; });
+    piece.translate(4, 6, true);
+    expect(piece.centralAnchor).toEqual(anchor(4, 6));
+    expect(fired).toBe(false);
+  });
 });

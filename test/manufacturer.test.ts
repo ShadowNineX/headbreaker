@@ -235,4 +235,17 @@ describe('manufacturer', () => {
     expect(d.metadata.id).toBe('X');
     expect(d.metadata.foo).toBeUndefined();
   });
+
+  it('withInsertsGenerator keeps the previous generator when given a falsy value', () => {
+    const manufacturer = new Manufacturer();
+    manufacturer.withDimensions(2, 1);
+    manufacturer.withStructure({ pieceRadius: 10, proximity: 1 });
+    manufacturer.withInsertsGenerator(flipflop);
+    // Passing null/undefined is a no-op: the previously configured generator
+    // (`flipflop`) is preserved.
+    manufacturer.withInsertsGenerator(null as unknown as typeof flipflop);
+    const puzzle = manufacturer.build();
+    expect(puzzle.pieces[0].right).toBe(Tab);
+    expect(puzzle.pieces[1].left).toBe(Slot);
+  });
 });

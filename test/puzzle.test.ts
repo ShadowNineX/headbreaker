@@ -323,4 +323,40 @@ describe('puzzle', () => {
     expect(puzzle.pieces[0].metadata.v).toBe(1);
     expect(puzzle.pieces[3].metadata.v).toBe(4);
   });
+
+  it('can relocate every piece via relocateTo', () => {
+    puzzle.relocateTo([
+      [10, 20],
+      [30, 40],
+      [50, 60],
+      [70, 80],
+    ]);
+    expect(puzzle.pieces[0].centralAnchor!.asPair()).toEqual([10, 20]);
+    expect(puzzle.pieces[1].centralAnchor!.asPair()).toEqual([30, 40]);
+    expect(puzzle.pieces[2].centralAnchor!.asPair()).toEqual([50, 60]);
+    expect(puzzle.pieces[3].centralAnchor!.asPair()).toEqual([70, 80]);
+  });
+
+  it('fires onTranslate listeners for every piece', () => {
+    const events: [Piece, number, number][] = [];
+    puzzle.onTranslate((piece, dx, dy) => events.push([piece, dx, dy]));
+    puzzle.translate(5, 7);
+    expect(events.length).toBe(puzzle.pieces.length);
+    expect(events.every(([, dx, dy]) => dx === 5 && dy === 7)).toBe(true);
+  });
+
+  it('can switch drag modes', () => {
+    const piece = puzzle.pieces[0];
+
+    puzzle.forceConnectionWhileDragging();
+    expect(puzzle.dragShouldDisconnect(piece, 1, 0)).toBe(false);
+
+    puzzle.forceDisconnectionWhileDragging();
+    expect(puzzle.dragShouldDisconnect(piece, 1, 0)).toBe(true);
+
+    // tryDisconnectionWhileDragging restores the default behaviour: a piece
+    // with no connection to its right is free to be disconnected.
+    puzzle.tryDisconnectionWhileDragging();
+    expect(puzzle.dragShouldDisconnect(piece, 1, 0)).toBe(true);
+  });
 });

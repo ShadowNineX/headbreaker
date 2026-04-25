@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { Horizontal, Vertical } from '../src/axis';
 import { None, Slot, Tab } from '../src/insert';
 import { Classic, Rounded } from '../src/outline';
 import Piece from '../src/piece';
@@ -559,5 +560,18 @@ describe('rounded', () => {
 
   it('isBezier returns true', () => {
     expect(new Rounded().isBezier()).toBe(true);
+  });
+
+  it('referenceInsertAxisLength uses min of the two axes by default', () => {
+    const r = new Rounded();
+    expect(r.referenceInsertAxisLength({ x: 80, y: 120 })).toBe(80);
+  });
+
+  it('referenceInsertAxisLength reads the configured axis when one is provided', () => {
+    const horizontal = new Rounded({ referenceInsertAxis: Horizontal });
+    expect(horizontal.referenceInsertAxisLength({ x: 80, y: 120 })).toBe(80);
+
+    const vertical = new Rounded({ referenceInsertAxis: Vertical });
+    expect(vertical.referenceInsertAxisLength({ x: 80, y: 120 })).toBe(120);
   });
 });
