@@ -279,12 +279,12 @@ describe('konva-painter (jsdom)', () => {
     });
     canvas.draw();
     const [piece] = canvas.puzzle.pieces;
-    const figure = canvas.getFigure(piece);
+    const group = canvas.getFigure(piece).group!;
     let ended = 0;
-    new KonvaPainter().onDragEnd(canvas, piece, figure.group!, () => {
+    new KonvaPainter().onDragEnd(canvas, piece, group, () => {
       ended++;
     });
-    figure.group!.fire('dragend');
+    group.fire('dragend');
     expect(ended).toBe(1);
   });
 });
