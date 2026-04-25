@@ -201,10 +201,10 @@ describe('konva-painter (jsdom)', () => {
     });
     canvas.draw();
     const [piece] = canvas.puzzle.pieces;
-    const figure = canvas.getFigure(piece);
-    figure.group!.x(123);
-    figure.group!.y(45);
-    new KonvaPainter().logicalTranslate(canvas, piece, figure.group!);
+    const group = canvas.getFigure(piece).group!;
+    group.x(123);
+    group.y(45);
+    new KonvaPainter().logicalTranslate(canvas, piece, group);
     expect(piece.metadata.currentPosition).toEqual({ x: 123, y: 45 });
   });
 
@@ -224,11 +224,11 @@ describe('konva-painter (jsdom)', () => {
     });
     canvas.draw();
     const [piece] = canvas.puzzle.pieces;
-    const figure = canvas.getFigure(piece);
+    const group = canvas.getFigure(piece).group!;
     piece.relocateTo(200, 150);
-    new KonvaPainter().physicalTranslate(canvas, figure.group!, piece);
-    expect(figure.group!.x()).toBe(200);
-    expect(figure.group!.y()).toBe(150);
+    new KonvaPainter().physicalTranslate(canvas, group, piece);
+    expect(group.x()).toBe(200);
+    expect(group.y()).toBe(150);
   });
 
   it('registers keyboard gestures and triggers them on key events', () => {
