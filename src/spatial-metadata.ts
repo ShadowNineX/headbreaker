@@ -1,3 +1,10 @@
+/**
+ * @module spatial-metadata
+ *
+ * Built-in spatial validators (relative position, absolute position, solved)
+ * plus helpers for initializing piece spatial fields.
+ */
+
 import type Piece from './piece';
 import type { PieceCondition, PuzzleCondition } from './validator';
 import type { Vector } from './vector';

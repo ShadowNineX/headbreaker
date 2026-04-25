@@ -1,3 +1,10 @@
+/**
+ * @module outline
+ *
+ * Geometry strategies that produce the silhouette of a piece. Pluggable on
+ * {@link Canvas} via the `outline` constructor option.
+ */
+
 import type { Insert } from './insert';
 import type Piece from './piece';
 import type { Vector } from './vector';
@@ -55,6 +62,8 @@ export interface Outline {
 
 /**
  * Squared (rectangular) outline with simple in/out tabs and slots.
+ *
+ * @implements {Outline}
  */
 export class Squared implements Outline {
   /**
@@ -121,6 +130,8 @@ export class Squared implements Outline {
 
 /**
  * Rounded outline with curved tabs/slots and optional bezels at corners.
+ *
+ * @implements {Outline}
  */
 export class Rounded implements Outline {
   /** Whether to apply the corner bezel where two `None` borders meet. */

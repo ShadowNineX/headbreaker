@@ -1,4 +1,11 @@
 /**
+ * @module prelude
+ *
+ * Tiny utility helpers reused across the library. These are intentionally
+ * dependency-free.
+ */
+
+/**
  * A value organized along the four orthogonal directions of a piece:
  * `up`, `down`, `left`, `right`.
  *

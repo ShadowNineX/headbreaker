@@ -1,3 +1,10 @@
+/**
+ * @module drag-mode
+ *
+ * Strategies that decide whether dragging a piece should disconnect it from
+ * its neighbours. Pluggable on {@link Puzzle#dragMode}.
+ */
+
 import type Piece from './piece';
 
 /**

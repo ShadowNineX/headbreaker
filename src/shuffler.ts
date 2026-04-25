@@ -1,3 +1,10 @@
+/**
+ * @module shuffler
+ *
+ * Pluggable layout strategies that move pieces around the canvas. Used by
+ * {@link Puzzle#shuffleWith} and the various `shuffle*` methods on {@link Canvas}.
+ */
+
 import type Piece from './piece';
 import type { Vector } from './vector';
 import { Anchor } from './anchor';
@@ -6,8 +13,13 @@ import { Anchor } from './anchor';
  * A function that maps a list of pieces to a list of destination positions
  * of the same length.
  *
+ * @callback Shuffler
  * @param {Piece[]} pieces - The pieces to shuffle.
  * @returns {Vector[]} New positions, one per piece.
+ *
+ * @example
+ * // A shuffler that stacks every piece at the origin
+ * const stack: Shuffler = pieces => pieces.map(() => ({ x: 0, y: 0 }));
  */
 export type Shuffler = (pieces: Piece[]) => Vector[];
 

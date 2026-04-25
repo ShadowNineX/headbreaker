@@ -1,3 +1,9 @@
+/**
+ * @module anchor
+ *
+ * Mutable 2D point used to express piece positions.
+ */
+
 import type { Vector } from './vector';
 import { between } from './between';
 import * as Pair from './pair';

@@ -1,3 +1,11 @@
+/**
+ * @module canvas
+ *
+ * The visual layer of a puzzle. {@link Canvas} owns a {@link Puzzle},
+ * a {@link Painter} and the set of {@link Figure}s rendered for each piece,
+ * and exposes a friendly API to draw, shuffle and validate the puzzle.
+ */
+
 import type Konva from 'konva';
 import type { Axis } from './axis';
 import type { ConnectionRequirement } from './connector';
@@ -61,6 +69,7 @@ export interface Figure {
 /**
  * Listener invoked when two pieces (and their figures) connect or disconnect.
  *
+ * @callback CanvasConnectionListener
  * @param {Piece} piece - The piece raising the event.
  * @param {Figure} figure - The figure of `piece`.
  * @param {Piece} targetPiece - The neighbour piece.
@@ -77,6 +86,7 @@ export type CanvasConnectionListener = (
 /**
  * Listener invoked when a piece is translated on the canvas.
  *
+ * @callback CanvasTranslationListener
  * @param {Piece} piece - The piece that moved.
  * @param {Figure} figure - The figure of `piece`.
  * @param {number} dx - Horizontal displacement.
@@ -120,6 +130,17 @@ export interface Template {
  * The visual layer of a puzzle. Owns a {@link Puzzle}, a {@link Painter} and
  * the set of {@link Figure}s rendered for each piece, and exposes a friendly
  * API to draw, shuffle and validate the puzzle.
+ *
+ * @example
+ * const canvas = new Canvas('mount-point', {
+ *   width: 800,
+ *   height: 600,
+ *   pieceSize: 100,
+ *   proximity: 20,
+ * });
+ * canvas.autogenerate({ horizontalPiecesCount: 4, verticalPiecesCount: 3 });
+ * canvas.shuffle();
+ * canvas.draw();
  */
 export default class Canvas {
   width: number;

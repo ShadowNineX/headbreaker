@@ -1,3 +1,10 @@
+/**
+ * @module vector
+ *
+ * Object-based 2D vector math. Most arithmetic helpers accept either a
+ * {@link Vector} or a scalar `number` (treated as an isotropic vector).
+ */
+
 import * as Pair from './pair';
 
 /**

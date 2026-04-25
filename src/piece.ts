@@ -1,3 +1,11 @@
+/**
+ * @module piece
+ *
+ * The {@link Piece} model and its associated types. A piece is one cell of a
+ * jigsaw puzzle, with four sides ({@link Insert}s), an optional central
+ * anchor (its position), and free-form metadata.
+ */
+
 import type { ImageLike } from './image-metadata';
 import type { Insert } from './insert';
 import type { Orthogonal } from './prelude';
@@ -14,6 +22,7 @@ import * as Structure from './structure';
 /**
  * Listener invoked whenever a piece is translated.
  *
+ * @callback TranslationListener
  * @param {Piece} piece - The piece that moved.
  * @param {number} dx - Horizontal displacement.
  * @param {number} dy - Vertical displacement.
@@ -28,6 +37,7 @@ export type TranslationListener = (
 /**
  * Listener invoked when two pieces connect or disconnect.
  *
+ * @callback ConnectionListener
  * @param {Piece} piece - The piece raising the event.
  * @param {Piece} target - The connected (or just-disconnected) neighbour.
  * @returns {void}

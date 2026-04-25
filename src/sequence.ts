@@ -1,3 +1,10 @@
+/**
+ * @module sequence
+ *
+ * Inserts generators and a stateful iterator used by {@link Manufacturer}
+ * to build the structure of each row/column of a grid puzzle.
+ */
+
 import type { Insert } from './insert';
 import { None, Slot, Tab } from './insert';
 
@@ -5,8 +12,12 @@ import { None, Slot, Tab } from './insert';
  * A function that produces the {@link Insert} at the given step `n` of a
  * sequence. Used to build the structure of a puzzle row or column.
  *
+ * @callback InsertsGenerator
  * @param {number} n - Zero-based step index.
  * @returns {Insert} The insert at step `n`.
+ *
+ * @example
+ * const myGen: InsertsGenerator = (n) => n % 3 === 0 ? Tab : Slot;
  */
 export type InsertsGenerator = (index: number) => Insert;
 
@@ -15,6 +26,10 @@ export type InsertsGenerator = (index: number) => Insert;
  *
  * @param {number} _n - Unused step index.
  * @returns {Insert} Always {@link Tab}.
+ *
+ * @example
+ * fixed(0); // Tab
+ * fixed(99); // Tab
  */
 export function fixed(_n: number): Insert {
   return Tab;
@@ -25,6 +40,9 @@ export function fixed(_n: number): Insert {
  *
  * @param {number} n - Zero-based step index.
  * @returns {Insert} {@link Tab} for even indices, {@link Slot} for odd ones.
+ *
+ * @example
+ * [0, 1, 2, 3].map(flipflop); // [Tab, Slot, Tab, Slot]
  */
 export function flipflop(n: number): Insert {
   return n % 2 === 0 ? Tab : Slot;
@@ -35,6 +53,9 @@ export function flipflop(n: number): Insert {
  *
  * @param {number} n - Zero-based step index.
  * @returns {Insert} {@link Tab} or {@link Slot} according to `n mod 4`.
+ *
+ * @example
+ * [0, 1, 2, 3, 4].map(twoAndTwo); // [Tab, Tab, Slot, Slot, Tab]
  */
 export function twoAndTwo(n: number): Insert {
   return n % 4 < 2 ? Tab : Slot;

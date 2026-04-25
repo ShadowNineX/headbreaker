@@ -1,3 +1,10 @@
+/**
+ * @module axis
+ *
+ * Strategy objects that abstract over 1D axes (horizontal / vertical), used
+ * for axis-agnostic image-fitting and layout helpers.
+ */
+
 import type { Vector } from './vector';
 
 /**

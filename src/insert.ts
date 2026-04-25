@@ -1,9 +1,21 @@
 /**
+ * @module insert
+ *
+ * The three possible shapes of a piece's side: {@link Tab}, {@link Slot} and
+ * {@link None}. Inserts are immutable singletons; never mutate them.
+ */
+
+/**
  * The shape of a single side of a {@link Piece}.
  *
  * Implementations are immutable singletons (see {@link Tab}, {@link Slot},
  * {@link None}). A piece side fits into another only when their inserts are
  * complementary.
+ *
+ * @example
+ * Tab.match(Slot);   // true
+ * Tab.match(Tab);    // false
+ * None.match(None);  // false  (borders never match)
  */
 export interface Insert {
   /** @returns {boolean} `true` when this insert is a slot (concave). */

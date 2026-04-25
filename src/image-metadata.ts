@@ -1,3 +1,10 @@
+/**
+ * @module image-metadata
+ *
+ * Helpers to coerce caller-supplied image values into a uniform
+ * {@link ImageMetadata} shape used by the rendering layer.
+ */
+
 import type { Vector } from './vector';
 import { vector } from './vector';
 

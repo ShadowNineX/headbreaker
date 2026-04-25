@@ -1,3 +1,10 @@
+/**
+ * @module structure
+ *
+ * Helpers to describe the four-sided structure of a piece, plus its
+ * compact 4-character serialization (right, down, left, up).
+ */
+
 import type { Insert } from './insert';
 import { None, Slot, Tab } from './insert';
 import { orthogonalMap } from './prelude';
@@ -18,6 +25,10 @@ export interface Structure {
  * Either a full {@link Structure} object or its serialized string form.
  *
  * @see {@link asStructure} for the conversion.
+ *
+ * @example
+ * const a: StructureLike = { up: Tab, down: Slot };
+ * const b: StructureLike = 'TS--'; // right=Tab, down=Slot, left=None, up=None
  */
 export type StructureLike = Structure | string;
 

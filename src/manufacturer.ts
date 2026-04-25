@@ -1,3 +1,11 @@
+/**
+ * @module manufacturer
+ *
+ * Builder that produces a fully-laid-out {@link Puzzle} from a grid
+ * configuration: dimensions, an {@link InsertsGenerator}, optional metadata
+ * and an optional head anchor.
+ */
+
 import type { Anchor } from './anchor';
 import type { PieceMetadata } from './piece';
 import type Piece from './piece';
@@ -13,6 +21,12 @@ import { fixed, InsertSequence } from './sequence';
  * Builder that produces a {@link Puzzle} from a grid configuration:
  * dimensions, an {@link InsertsGenerator}, optional metadata and an optional
  * head anchor.
+ *
+ * @example
+ * const m = new Manufacturer();
+ * m.withDimensions(3, 2);
+ * m.withInsertsGenerator(twoAndTwo);
+ * const puzzle = m.build(); // 3×2 puzzle
  */
 export default class Manufacturer {
   /** Strategy used to pick inserts for each row/column step. */

@@ -1,3 +1,11 @@
+/**
+ * @module puzzle
+ *
+ * The headless model of a jigsaw puzzle: a collection of {@link Piece}s plus
+ * the connectors and validators that govern how they relate. Has no
+ * rendering dependencies.
+ */
+
 import type { Anchor } from './anchor';
 import type { ConnectionRequirement } from './connector';
 import type { Pair } from './pair';

@@ -1,3 +1,10 @@
+/**
+ * @module konva-painter
+ *
+ * Concrete {@link Painter} backed by [Konva.js](https://konvajs.org). Drives
+ * piece drawing, dragging, fills, labels, scaling and keyboard gestures.
+ */
+
 import type Canvas from './canvas';
 import type { Figure, Group } from './canvas';
 import type { Outline } from './outline';
@@ -23,11 +30,14 @@ function currentPositionDiff(model: Piece, group: Group): Pair.Pair {
 /**
  * Concrete {@link Painter} backed by Konva.js. Draws pieces, supports
  * dragging, image filling, labels, scaling, and keyboard gestures.
+ *
+ * @extends {Painter}
  */
 export default class KonvaPainter extends Painter {
   /**
    * Builds a Konva stage and primary layer on the DOM element identified by `id`.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {string} id - DOM container id.
    * @returns {void}
@@ -51,6 +61,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Triggers a Konva layer redraw.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @returns {void}
    */
@@ -61,6 +72,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Destroys the current layer and creates a new empty one on the same stage.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @returns {void}
    */
@@ -74,6 +86,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Resizes the underlying Konva stage.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {number} width - New width in pixels.
    * @param {number} height - New height in pixels.
@@ -89,6 +102,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Applies a 2D scale to the Konva stage.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Vector} factor - Scale factor on each axis.
    * @returns {void}
@@ -101,6 +115,7 @@ export default class KonvaPainter extends Painter {
    * Builds the Konva group + line shape that visually represents `piece` and
    * adds it to the layer.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Piece} piece - The piece to render.
    * @param {Figure} figure - Output figure populated with `group` and `shape`.
@@ -143,6 +158,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Applies the configured fill (image pattern or color) to the piece's shape.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Piece} piece - The piece whose figure to fill.
    * @param {Figure} figure - The figure to update.
@@ -163,6 +179,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Adds a Konva text node to the piece's group, using the piece's label metadata.
    *
+   * @override
    * @param {Canvas} _canvas - The owning canvas.
    * @param {Piece} piece - The piece whose label to render.
    * @param {Figure} figure - The figure to update.
@@ -188,6 +205,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Moves the Konva group to the model's central anchor.
    *
+   * @override
    * @param {Canvas} _canvas - The owning canvas.
    * @param {Group} group - The piece's visual group.
    * @param {Piece} piece - The piece model.
@@ -201,6 +219,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Updates the piece's `currentPosition` metadata to match the Konva group.
    *
+   * @override
    * @param {Canvas} _canvas - The owning canvas.
    * @param {Piece} piece - The piece model.
    * @param {Group} group - The piece's visual group.
@@ -213,6 +232,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Wires up Konva drag-move and hover events for `piece`.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Piece} piece - The piece model.
    * @param {Group} group - The piece's visual group.
@@ -236,6 +256,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Wires up the Konva drag-end event for `piece`.
    *
+   * @override
    * @param {Canvas} _canvas - The owning canvas.
    * @param {Piece} _piece - The piece model.
    * @param {Group} group - The piece's visual group.
@@ -251,6 +272,7 @@ export default class KonvaPainter extends Painter {
   /**
    * Registers keydown/keyup gestures on the Konva container.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Record<string, (puzzle: Puzzle) => void>} gestures - Map from
    *   keyboard key to a callback receiving the {@link Puzzle}.

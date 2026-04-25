@@ -1,3 +1,11 @@
+/**
+ * @module dummy-painter
+ *
+ * Headless {@link Painter} used in tests and non-DOM environments. Records a
+ * tiny accounting of how many figures were sketched and whether `draw` was
+ * called, instead of rendering anything.
+ */
+
 import type Canvas from './canvas';
 import type { Figure } from './canvas';
 import type { Outline } from './outline';
@@ -9,11 +17,14 @@ import Painter from './painter';
  *
  * It does not actually render anything; it just records on the canvas a tiny
  * accounting of how many figures were sketched and whether `draw` was called.
+ *
+ * @extends {Painter}
  */
 export default class DummyPainter extends Painter {
   /**
    * Initializes the canvas's bookkeeping layer.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {string} _id - Ignored.
    * @returns {void}
@@ -25,6 +36,7 @@ export default class DummyPainter extends Painter {
   /**
    * Marks the canvas as drawn.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @returns {void}
    */
@@ -35,6 +47,7 @@ export default class DummyPainter extends Painter {
   /**
    * Increments the count of sketched figures.
    *
+   * @override
    * @param {Canvas} canvas - The owning canvas.
    * @param {Piece} _piece - Ignored.
    * @param {Figure} _figure - Ignored.

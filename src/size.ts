@@ -1,3 +1,10 @@
+/**
+ * @module size
+ *
+ * Helpers for representing piece sizes as a redundant `radius` + `diameter`
+ * pair, so consumers can read whichever they need without recomputing.
+ */
+
 import type { Vector } from './vector';
 import * as VectorModule from './vector';
 
@@ -19,6 +26,9 @@ export interface Size {
  * @param {Vector | number} value - Radius as a vector, or as a scalar applied
  *   to both axes.
  * @returns {Size} The matching `Size`.
+ *
+ * @example
+ * radius(50); // { radius: {x: 50, y: 50}, diameter: {x: 100, y: 100} }
  */
 export function radius(value: Vector | number): Size {
   const v = VectorModule.cast(value);
@@ -35,6 +45,9 @@ export function radius(value: Vector | number): Size {
  * @param {Vector | number} value - Diameter as a vector, or as a scalar
  *   applied to both axes.
  * @returns {Size} The matching `Size`.
+ *
+ * @example
+ * diameter(100); // { radius: {x: 50, y: 50}, diameter: {x: 100, y: 100} }
  */
 export function diameter(value: Vector | number): Size {
   const v = VectorModule.cast(value);

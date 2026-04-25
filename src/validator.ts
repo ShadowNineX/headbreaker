@@ -1,3 +1,11 @@
+/**
+ * @module validator
+ *
+ * Pluggable validation strategies attached to {@link Puzzle#validator}.
+ * Concrete validators report whether the puzzle is currently "solved" under
+ * some application-specific notion, and notify listeners on state transitions.
+ */
+
 import type Piece from './piece';
 import type Puzzle from './puzzle';
 import * as Pair from './pair';
@@ -6,6 +14,7 @@ import * as Pair from './pair';
  * Listener invoked whenever a {@link Validator} transitions from invalid to
  * valid.
  *
+ * @callback ValidationListener
  * @param {Puzzle} puzzle - The puzzle that became valid.
  * @returns {void}
  */
@@ -14,6 +23,7 @@ export type ValidationListener = (puzzle: Puzzle) => void;
 /**
  * Predicate evaluated against a single {@link Piece}.
  *
+ * @callback PieceCondition
  * @param {Piece} piece - The piece to test.
  * @returns {boolean} `true` if the piece satisfies the condition.
  */
@@ -22,6 +32,7 @@ export type PieceCondition = (piece: Piece) => boolean;
 /**
  * Predicate evaluated against an entire {@link Puzzle}.
  *
+ * @callback PuzzleCondition
  * @param {Puzzle} puzzle - The puzzle to test.
  * @returns {boolean} `true` if the puzzle satisfies the condition.
  */
@@ -74,6 +85,7 @@ abstract class AbstractValidator {
   /**
    * Returns whether the puzzle currently satisfies this validator.
    *
+   * @abstract
    * @param {Puzzle} puzzle - The puzzle to check.
    * @returns {boolean} `true` if the puzzle is valid.
    */
@@ -134,6 +146,7 @@ export class PieceValidator extends AbstractValidator {
   }
 
   /**
+   * @override
    * @param {Puzzle} puzzle - The puzzle to check.
    * @returns {boolean} `true` when every piece satisfies {@link PieceValidator#condition}.
    */
@@ -158,6 +171,7 @@ export class PuzzleValidator extends AbstractValidator {
   }
 
   /**
+   * @override
    * @param {Puzzle} puzzle - The puzzle to check.
    * @returns {boolean} `true` when the puzzle satisfies {@link PuzzleValidator#condition}.
    */
@@ -165,7 +179,12 @@ export class PuzzleValidator extends AbstractValidator {
     return this.condition(puzzle);
   }
 
-  /** Default tolerance used when comparing piece offsets. */
+  /**
+   * Default tolerance used when comparing piece offsets.
+   *
+   * @readonly
+   * @default 0.01
+   */
   static readonly DIFF_DELTA = 0.01;
 
   /**
@@ -216,6 +235,7 @@ export class PuzzleValidator extends AbstractValidator {
  */
 export class NullValidator extends AbstractValidator {
   /**
+   * @override
    * @param {Puzzle} _puzzle - Ignored.
    * @returns {boolean} Always `false`.
    */
@@ -223,7 +243,10 @@ export class NullValidator extends AbstractValidator {
     return false;
   }
 
-  /** @returns {boolean} Always `true`. */
+  /**
+   * @override
+   * @returns {boolean} Always `true`.
+   */
   get isNull(): boolean {
     return true;
   }

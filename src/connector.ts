@@ -1,3 +1,10 @@
+/**
+ * @module connector
+ *
+ * Logic for snapping pieces together along a single axis. The {@link Puzzle}
+ * holds two connectors (one horizontal, one vertical).
+ */
+
 import type { Anchor } from './anchor';
 import type { Insert } from './insert';
 import type Piece from './piece';
@@ -7,9 +14,15 @@ import { pivot } from './prelude';
  * Predicate that decides whether two pieces are allowed to connect along a
  * connector axis, regardless of the geometric proximity check.
  *
+ * @callback ConnectionRequirement
  * @param {Piece} one - The forward piece.
  * @param {Piece} other - The backward piece.
  * @returns {boolean} `true` if the connection is allowed.
+ *
+ * @example
+ * // Only allow connections between pieces with the same color
+ * const sameColor: ConnectionRequirement = (a, b) =>
+ *   a.metadata.color === b.metadata.color;
  */
 export type ConnectionRequirement = (one: Piece, other: Piece) => boolean;
 

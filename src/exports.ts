@@ -1,4 +1,6 @@
 /**
+ * @module exports
+ *
  * Public API surface of the headbreaker library.
  *
  * Re-exports every type, class, function and namespace intended for end-user

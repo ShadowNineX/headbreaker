@@ -1,5 +1,15 @@
 /**
+ * @module pair
+ *
+ * Lightweight tuple-based 2D arithmetic helpers. Used throughout the model
+ * to avoid allocating {@link Vector} objects when passing transient deltas.
+ */
+
+/**
  * A pair of numbers, typically representing a 2D delta or coordinate.
+ *
+ * @example
+ * const p: Pair = [3, 4];
  */
 export type Pair = [number, number];
 

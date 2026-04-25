@@ -1,3 +1,12 @@
+/**
+ * @module painter
+ *
+ * Abstract rendering backend. The default {@link Painter} is a no-op base
+ * class; concrete subclasses such as {@link KonvaPainter} or
+ * {@link DummyPainter} override the relevant methods to draw and react to
+ * user input.
+ */
+
 import type Canvas from './canvas';
 import type { Figure, Group } from './canvas';
 import type { Outline } from './outline';
@@ -8,6 +17,7 @@ import type { Vector } from './vector';
 /**
  * Callback invoked when a piece is dragged on the canvas.
  *
+ * @callback VectorAction
  * @param {number} dx - Drag delta on the x axis.
  * @param {number} dy - Drag delta on the y axis.
  * @returns {void}
@@ -17,6 +27,7 @@ export type VectorAction = (dx: number, dy: number) => void;
 /**
  * Generic no-argument callback (used for example for drag-end handlers).
  *
+ * @callback Action
  * @returns {void}
  */
 export type Action = () => void;
