@@ -5,9 +5,9 @@
     "": {
       "name": "headbreaker-docs",
       "dependencies": {
-        "@astrojs/starlight": "^0.38.3",
-        "astro": "^6.1.8",
-        "sharp": "^0.34.5",
+        "@astrojs/starlight": "latest",
+        "astro": "latest",
+        "sharp": "latest",
       },
     },
   },
